@@ -1,0 +1,8 @@
+<RCC>
+    <qresource prefix="/">
+        <file>qml/main.qml</file>
+        <file>qml/NGraphNode.qml</file>
+        <file>qml/NNiftyButton.qml</file>
+        <file>NGraphEdge.qml</file>
+    </qresource>
+</RCC>
