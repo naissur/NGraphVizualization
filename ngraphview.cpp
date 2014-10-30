@@ -22,6 +22,11 @@ NGraphView::NGraphView(int width, int height, QObject *parent) : QObject(parent)
 
     connect(graphArea,  SIGNAL(addNodeToModel(double,double)),
             this, 		SIGNAL(addNodeToModel(double,double)) );
+    connect(graphArea, 	SIGNAL(addEdgeToModel(QString, QString, double, QString)),
+            this,		SIGNAL(addEdgeToModel(QString,QString,double,QString)) );
+
+    connect(this, SIGNAL(addEdgeToGraphView(QVariant,QVariant,QVariant,QVariant,QVariant,QVariant)),
+            graphArea, SLOT(addEdgeToGraphView(QVariant,QVariant,QVariant,QVariant,QVariant,QVariant)) );
 
     connect(graphArea,  SIGNAL(moveNodeInModel(double, double, QString)),
             this,		SIGNAL(moveNodeInModel(double,double,QString)) );
@@ -32,10 +37,21 @@ NGraphView::NGraphView(int width, int height, QObject *parent) : QObject(parent)
     connect(this, 		SIGNAL(moveNodeInGraphView(QVariant, QVariant, QVariant)),
             graphArea,  SLOT(moveNodeInGraphView(QVariant, QVariant, QVariant)));
 
+    connect(this, 		SIGNAL(moveEdgeInGraphView(QVariant,QVariant,QVariant,QVariant,QVariant)),
+            graphArea, 	SLOT(moveEdgeInGraphView(QVariant,QVariant,QVariant,QVariant,QVariant)) );
+
     qDebug("NGraphView: Created a NGraphView instance");
 }
 
 void NGraphView::show(){
+    /*emit addNodeToModel(0, 0);
+    emit addNodeToModel(200, 200);
+    emit addNodeToModel(300, 200);
+    moveNodeInView(100, 100, "1");
+    emit addEdgeToModel("1", "2", 10, "Edge1");
+    emit addEdgeToModel("2", "3", 10, "Edge2");
+    */
+
     m_window->show();
     qDebug("NGraphView: Shown NGraphView view");
 }
@@ -48,6 +64,16 @@ void NGraphView::addNodeToView(double x, double y, QString label){
 
 void NGraphView::moveNodeInView(double x, double y, QString label){
     emit moveNodeInGraphView(QVariant(x), QVariant(y), QVariant(label));
+}
+
+void NGraphView::addEdgeToView(double x1, double y1, double x2, double y2, QString label, double weight){
+    emit addEdgeToGraphView(QVariant(x1), QVariant(y1),
+                            QVariant(x2), QVariant(y2), QVariant(label), QVariant(weight));
+}
+
+void NGraphView::moveEdgeInView(double x1, double y1, double x2, double y2, QString label){
+    emit moveEdgeInGraphView(QVariant(x1), QVariant(y1),
+                             QVariant(x2), QVariant(y2), QVariant(label));
 }
 
 void NGraphView::testMove(){

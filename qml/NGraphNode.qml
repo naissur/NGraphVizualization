@@ -2,44 +2,40 @@ import QtQuick 2.0
 
 Rectangle{
     id: node
+    objectName: "NGraphNode";
 
     property string label
-    property int x_pos
-    property int y_pos
-    property var canvas
+    //property var canvas
 
     property bool dragEnabled
     dragEnabled: true
+    onDragEnabledChanged:{
+        if(dragEnabled){
+            nodeMouseArea.drag.target = node
+        }else{
+            nodeMouseArea.drag.target = null
+        }
+    }
 
-    signal mousePressed()
-    signal mouseReleased(int x, int y)
+    transform: Translate{ x: -height/2; y: -width/2 }
+
+    signal mousePressed(string label)
+    signal mouseReleased(int x, int y, string label)
 
     signal moved(int x, int y, string label)   // View Signal
     onMoved:{
         //console.debug(label+" : emitting move signal");
     }
 
-//    x_pos: x + width/2
-//    y_pos: y + height/2
-
     onXChanged: {
-        moved(x+width/2, y+height/2, label)
+        moved(x, y, label)
     }
     onYChanged: {
-        moved(x+width/2, y+height/2, label)
+        moved(x, y, label)
     }
-
-    /*onX_posChanged: {
-        x = x_pos - width / 2
-    }
-    onY_posChanged: {
-        y = y_pos - height / 2
-    }*/
 
     width: 30
     height: 30
-    //x: x_pos - width/2
-    //y: y_pos - height/2
 
     radius: height/2
     color: "black"
@@ -58,26 +54,29 @@ Rectangle{
 
 
     MouseArea{
-        enabled: node.dragEnabled
+        //enabled: node.dragEnabled
+        id: nodeMouseArea
+        objectName: "NGraphNodeMouseArea"
+
         anchors.fill: parent
         drag.target: node
         onMouseXChanged: {
-            canvas.requestPaint();
+            //canvas.requestPaint();
         }
         onMouseYChanged: {
-            canvas.requestPaint();
+            //canvas.requestPaint();
         }
         onPressed:{
-            console.debug(node.label, " drag has started");
-            node.mousePressed()
+            //console.debug(node.label, " had mouse Pressed");
+            node.mousePressed(node.label)
         }
         onReleased: {
-            console.debug(node.label, " drag has finished");
-            node.mouseReleased(mouseX, mouseY)
+//            console.debug(node.label, " had mouse Pressed");
+            node.mouseReleased(mouseX, mouseY, node.label)
         }
         onDoubleClicked: {
-            console.debug(parent.x.toString()+" "+
-                          parent.y.toString());
+            //console.debug(parent.x.toString()+" "+
+                          //parent.y.toString());
         }
     }
 }

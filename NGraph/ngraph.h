@@ -3,6 +3,7 @@
 
 #include <QString>
 #include <QHash>
+#include <QPair>
 
 class NGraphNode{
 
@@ -29,17 +30,23 @@ class NGraph {
 public:
     NGraph();
     ~NGraph();
-    void addNode(double x, double y, QString id);
+    void addNode(double x, double y, QString label);
+    void addEdge(QString id1, QString id2, double weight, QString label);
+
+    void moveNode(double x, double y, QString label);
+
     NGraphNode* getNode(QString label);
-    void addEdge(QString id1, QString id2, double weight);
+    QPair<QString, double>* getEdge(QString labelStart, QString labelEnd);
+    QPair<QString, double>* getEdge(QString label);
+
     QList<NGraphNode*> getAdjecentNodes(QString id);
     QList<NGraphNode*> getNodeList();
 
     QString toString();
 
 private:
-    QHash<NGraphNode*, QHash<NGraphNode*, double>* > *m_graph;
-        // node           adjacent node    weight
+    QHash<NGraphNode*, QHash<NGraphNode*, QPair<QString, double>* >* > *m_graph;
+        // node           adjacent node     	 label   weight
 };
 
 #endif // NGRAPH_H

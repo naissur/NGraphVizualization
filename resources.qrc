@@ -3,6 +3,6 @@
         <file>qml/main.qml</file>
         <file>qml/NGraphNode.qml</file>
         <file>qml/NNiftyButton.qml</file>
-        <file>NGraphEdge.qml</file>
+        <file>qml/NGraphEdge.qml</file>
     </qresource>
 </RCC>

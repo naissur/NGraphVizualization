@@ -9,7 +9,7 @@ Rectangle {
     gradient: defaultGradient
 
     signal clicked()
-    onClicked:  console.debug("Nifty Button Clicked!")
+//    onClicked:  console.debug("Nifty Button Clicked!")
 
     property string buttonText: "Click"
     property var textColor: "#FFFFFF"
