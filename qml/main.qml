@@ -128,15 +128,30 @@ Rectangle{
             //newNode.mouseReleased.connect(finishCreatingEdge);
         }
 
-        function addEdgeToGraphView(x1, y1, x2, y2, label, weight){
+        function addEdgeToGraphView(label1, label2, label, weight){
             console.debug("QMLView: edgeComponent.createComponent()");
-            console.debug(label);
-            console.debug(x1+" "+y1+" "+x2+" "+y2);
+
+            var nodeList = graphNodeContainer.children
+            var startNode = null
+            var endNode = null
+            for(var i= 0; i < nodeList.length; i++){
+                if(nodeList[i].objectName === "NGraphNode"){
+                    if(nodeList[i].label == label1){
+                        startNode = nodeList[i]
+                    }else
+                    if(nodeList[i].label == label2){
+                        endNode = nodeList[i]
+                    }
+                }
+            }
 
             var newEdge = graphArea.edgeFactory.createObject(
-                graphEdgeContainer, {"x1" : x1, "y1" : y1, "x2" : x2, "y2" : y2,
-                                    "label" : label, "weight" : weight, "height" : 3,
-                                    "z": 0});
+                graphEdgeContainer, {"x1" : startNode.x, "y1" : startNode.y,
+                                     "x2" : endNode.x, "y2" : endNode.y,
+                                     "label" : label, "weight" : weight, "height" : 3,
+                                     "z": 0});
+            startNode.moved.connect(newEdge.setXY1);
+            endNode.moved.connect(newEdge.setXY2);
         }
 
         function moveNodeInGraphView(x, y, label){

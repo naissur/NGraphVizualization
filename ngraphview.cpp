@@ -1,6 +1,7 @@
 #include "ngraphview.h"
 #include <QScreen>
 #include <QQuickItem>
+#include <QtMath>
 
 NGraphView::NGraphView(QObject *parent) : QObject(parent){
     NGraphView(STD_WIDTH, STD_HEIGHT, parent);
@@ -25,8 +26,8 @@ NGraphView::NGraphView(int width, int height, QObject *parent) : QObject(parent)
     connect(graphArea, 	SIGNAL(addEdgeToModel(QString, QString, double, QString)),
             this,		SIGNAL(addEdgeToModel(QString,QString,double,QString)) );
 
-    connect(this, SIGNAL(addEdgeToGraphView(QVariant,QVariant,QVariant,QVariant,QVariant,QVariant)),
-            graphArea, SLOT(addEdgeToGraphView(QVariant,QVariant,QVariant,QVariant,QVariant,QVariant)) );
+    connect(this, SIGNAL(addEdgeToGraphView(QVariant,QVariant,QVariant,QVariant)),
+            graphArea, SLOT(addEdgeToGraphView(QVariant,QVariant,QVariant,QVariant)) );
 
     connect(graphArea,  SIGNAL(moveNodeInModel(double, double, QString)),
             this,		SIGNAL(moveNodeInModel(double,double,QString)) );
@@ -37,20 +38,40 @@ NGraphView::NGraphView(int width, int height, QObject *parent) : QObject(parent)
     connect(this, 		SIGNAL(moveNodeInGraphView(QVariant, QVariant, QVariant)),
             graphArea,  SLOT(moveNodeInGraphView(QVariant, QVariant, QVariant)));
 
-    connect(this, 		SIGNAL(moveEdgeInGraphView(QVariant,QVariant,QVariant,QVariant,QVariant)),
-            graphArea, 	SLOT(moveEdgeInGraphView(QVariant,QVariant,QVariant,QVariant,QVariant)) );
+    //connect(this, 		SIGNAL(moveEdgeInGraphView(QVariant,QVariant,QVariant,QVariant,QVariant)),
+            //graphArea, 	SLOT(moveEdgeInGraphView(QVariant,QVariant,QVariant,QVariant,QVariant)) );
 
     qDebug("NGraphView: Created a NGraphView instance");
 }
 
 void NGraphView::show(){
-    /*emit addNodeToModel(0, 0);
-    emit addNodeToModel(200, 200);
-    emit addNodeToModel(300, 200);
-    moveNodeInView(100, 100, "1");
-    emit addEdgeToModel("1", "2", 10, "Edge1");
-    emit addEdgeToModel("2", "3", 10, "Edge2");
-    */
+
+    /*int N = 20;
+    int n1 = 1;
+    emit addNodeToModel(150+100, 150+100);
+    for(double a = 0; a < 2*M_PI; a+= M_PI*2/N){
+        n1++;
+        emit addNodeToModel((1+qCos(a))*150+100, (1+qSin(a))*150+100);
+        emit addEdgeToModel(QString::number(1),
+                            QString::number(n1),
+                            1, QString("Edge ").append(QString::number(1)).
+                            append(QString(" ")).append(QString::number(n1)) );
+    }*/
+
+    int N = 10;     /// ADD K(N)
+    for(double a = 0; a < 2*M_PI; a+= M_PI*2/N){
+        emit addNodeToModel((1+qCos(a))*150+100, (1+qSin(a))*150+100);
+    }
+
+    int n2;
+    for(int n1; n1 <= N; n1++){
+        for(n2 = n1+1; n2 <= N; n2++){
+            emit addEdgeToModel(QString::number(n1),
+                                QString::number(n2),
+                                1, QString("Edge ").append(QString::number(n1)).
+                                append(QString(" ")).append(QString::number(n2)) );
+        }
+    }
 
     m_window->show();
     qDebug("NGraphView: Shown NGraphView view");
@@ -66,15 +87,14 @@ void NGraphView::moveNodeInView(double x, double y, QString label){
     emit moveNodeInGraphView(QVariant(x), QVariant(y), QVariant(label));
 }
 
-void NGraphView::addEdgeToView(double x1, double y1, double x2, double y2, QString label, double weight){
-    emit addEdgeToGraphView(QVariant(x1), QVariant(y1),
-                            QVariant(x2), QVariant(y2), QVariant(label), QVariant(weight));
+void NGraphView::addEdgeToView(QString labelStart, QString labelEnd, QString label, double weight){
+    emit addEdgeToGraphView(QVariant(labelStart), QVariant(labelEnd), QVariant(label), QVariant(weight));
 }
 
-void NGraphView::moveEdgeInView(double x1, double y1, double x2, double y2, QString label){
+/*void NGraphView::moveEdgeInView(double x1, double y1, double x2, double y2, QString label){
     emit moveEdgeInGraphView(QVariant(x1), QVariant(y1),
                              QVariant(x2), QVariant(y2), QVariant(label));
-}
+}*/
 
 void NGraphView::testMove(){
     moveNodeInView(300, 300, "1");

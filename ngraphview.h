@@ -25,20 +25,19 @@ signals:
 
     // QML signals declared here
     void addNodeToGraphView(QVariant x, QVariant y, QVariant label);
-    void addEdgeToGraphView(QVariant x1, QVariant y1,
-                            QVariant x2, QVariant y2, QVariant label, QVariant weight);
+    void addEdgeToGraphView(QVariant startLabel, QVariant endLabel, QVariant label, QVariant weight);
 
     void moveNodeInGraphView(QVariant x, QVariant y, QVariant label);
-    void moveEdgeInGraphView(QVariant x1, QVariant y1,
-                             QVariant x2, QVariant y2, QVariant label);
+    //void moveEdgeInGraphView(QVariant x1, QVariant y1,
+                             //QVariant x2, QVariant y2, QVariant label);
 
 public slots:
     void testMove();
     void addNodeToView(double x, double y, QString label);
     void moveNodeInView(double x, double y, QString label);
 
-    void addEdgeToView(double x1, double y1, double x2, double y2, QString label, double weight);
-    void moveEdgeInView(double x1, double y1, double x2, double y2, QString label);
+    void addEdgeToView(QString labelStart, QString labelEnd, QString label, double weight);
+    //void moveEdgeInView(double x1, double y1, double x2, double y2, QString label);
 
 private:
     QQuickView *m_window;

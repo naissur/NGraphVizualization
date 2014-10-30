@@ -16,8 +16,8 @@ NGraphApp::NGraphApp(int argc, char* argv[]) {
     QObject::connect(m_model, SIGNAL(addNodeToView(double,double,QString)),
                      m_view,  SLOT(addNodeToView(double,double,QString)));
 
-    QObject::connect(m_model, SIGNAL(addEdgeToView(double,double,double,double,QString,double)),
-                     m_view, SLOT(addEdgeToView(double, double, double, double, QString, double)) );
+    QObject::connect(m_model, SIGNAL(addEdgeToView(QString, QString, QString,double)),
+                     m_view, SLOT(addEdgeToView(QString, QString, QString, double)) );
 
     QObject::connect(m_view,  SIGNAL(moveNodeInModel(double,double,QString)),
                      m_model, SLOT(moveNodeInModel(double,double,QString)) );
@@ -25,8 +25,8 @@ NGraphApp::NGraphApp(int argc, char* argv[]) {
     QObject::connect(m_model, SIGNAL(moveNodeInView(double,double,QString)),
                      m_view,  SLOT(moveNodeInView(double,double,QString)) );
 
-    QObject::connect(m_model, SIGNAL(moveEdgeInView(double,double,double,double,QString)),
-                     m_view,  SLOT(moveEdgeInView(double,double,double,double,QString)) );
+    //QObject::connect(m_model, SIGNAL(moveEdgeInView(double,double,double,double,QString)),
+                     //m_view,  SLOT(moveEdgeInView(double,double,double,double,QString)) );
 
     QObject::connect(m_view,  SIGNAL(addEdgeToModel(QString,QString,double,QString)),
                      m_model, SLOT(addEdgeToModel(QString,QString,double,QString)) );

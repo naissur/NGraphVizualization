@@ -64,9 +64,9 @@ void NGraphModel::moveNodeInModel(double x, double y, QString label){
         }
     }*/
     m_ngraph->moveNode(x, y, label);
-    qDebug(QString("NGraphModel: Moved node ").append(label).toStdString().c_str());
+    //qDebug(QString("NGraphModel: Moved node ").append(label).toStdString().c_str());
 
-    foreach (NGraphNode* endNode, m_ngraph->getAdjecentNodes(label)){
+    /*foreach (NGraphNode* endNode, m_ngraph->getAdjecentNodes(label)){
         qDebug(QString("NGraphModel: Moving edge ").append(QString(label)).append(QString(" -> ")).append(
                 QString(endNode->getLabel())).toStdString().c_str() );
 
@@ -85,7 +85,7 @@ void NGraphModel::moveNodeInModel(double x, double y, QString label){
 
             emit moveEdgeInView(startNode->getX(), startNode->getY(), x, y, edgeLabel);
         }
-}
+}*/
     //qDebug("NGraphModel: Hasn't found a node to move");
 }
 
@@ -114,11 +114,7 @@ void NGraphModel::addEdgeToModel(QString labelStart, QString labelEnd, double we
         qDebug(" Edge1 does not exist");
     }*/
 
-    emit addEdgeToView(m_ngraph->getNode(labelStart)->getX(),
-                       m_ngraph->getNode(labelStart)->getY(),
-                       m_ngraph->getNode(labelEnd)->getX(),
-                       m_ngraph->getNode(labelEnd)->getY(),
-                       resLabel, weight);
+    emit addEdgeToView(labelStart, labelEnd, resLabel, weight);
 }
 
 

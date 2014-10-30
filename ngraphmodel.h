@@ -14,10 +14,10 @@ public:
 
 signals:
     void addNodeToView(double x, double y, QString label);
-    void addEdgeToView(double x1, double y1, double x2, double y2, QString label, double weight);
+    void addEdgeToView(QString labelStart, QString labelEnd, QString label, double weight);
 
     void moveNodeInView(double x, double y, QString label);
-    void moveEdgeInView(double x1, double y1, double x2, double y2, QString label);
+    //void moveEdgeInView(double x1, double y1, double x2, double y2, QString label); // Model does not move edges
 
 public slots:
     void addNodeToModel(double x, double y, QString label = QString(""));
