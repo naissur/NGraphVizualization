@@ -57,8 +57,9 @@ void NGraphView::show(){
                             1, QString("Edge ").append(QString::number(1)).
                             append(QString(" ")).append(QString::number(n1)) );
     }*/
+    m_window->show();
 
-    int N = 10;     /// ADD K(N)
+    /*int N = 10;     /// ADD K(N)
     for(double a = 0; a < 2*M_PI; a+= M_PI*2/N){
         emit addNodeToModel((1+qCos(a))*150+100, (1+qSin(a))*150+100);
     }
@@ -71,9 +72,8 @@ void NGraphView::show(){
                                 1, QString("Edge ").append(QString::number(n1)).
                                 append(QString(" ")).append(QString::number(n2)) );
         }
-    }
+    }*/
 
-    m_window->show();
     qDebug("NGraphView: Shown NGraphView view");
 }
 

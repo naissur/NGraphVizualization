@@ -54,7 +54,7 @@ Rectangle{
 
 
     MouseArea{
-        //enabled: node.dragEnabled
+        enabled: node.dragEnabled
         id: nodeMouseArea
         objectName: "NGraphNodeMouseArea"
 

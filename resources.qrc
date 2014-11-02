@@ -4,5 +4,6 @@
         <file>qml/NGraphNode.qml</file>
         <file>qml/NNiftyButton.qml</file>
         <file>qml/NGraphEdge.qml</file>
+        <file>qml/NGraphArea.qml</file>
     </qresource>
 </RCC>

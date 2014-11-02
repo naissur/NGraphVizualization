@@ -21,4 +21,5 @@ OTHER_FILES += \
     qml/NGraphEdge.qml \
     qml/NGraphNode.qml \
     qml/NNiftyButton.qml \
-    qml/NGraphEdge.qml
+    qml/NGraphEdge.qml \
+    qml/NGraphArea.qml
