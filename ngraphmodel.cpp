@@ -1,5 +1,6 @@
 #include "ngraphmodel.h"
 
+#include <QtDebug>
 
 NGraphModel::NGraphModel(QObject *parent) :
     QObject(parent) {
@@ -25,7 +26,7 @@ void NGraphModel::addNodeToModel(double x, double y, QString label){
 
     QString resLabel = label;
 
-    if(label == QString("")){
+    if (label.isEmpty()){
         qDebug("NGraphModel: Generating node label...");
         int i = 1;
         while( m_ngraph->getNode(QString::number(i)) ){
@@ -34,7 +35,7 @@ void NGraphModel::addNodeToModel(double x, double y, QString label){
         resLabel = QString::number(i); //GERENATE LABEL
     }
 
-    qDebug(QString("NGraphModel: Added node ").append(label).toStdString().c_str());
+    qDebug() << "NGraphModel: Added node " << label;
 
     m_ngraph->addNode(x, y, resLabel);
 
@@ -96,7 +97,7 @@ void NGraphModel::addEdgeToModel(QString labelStart, QString labelEnd, double we
 
     QString resLabel = label;
 
-    if(label.toStdString() == "" ){
+    if(label.isEmpty()){
         qDebug("NGraphModel: Generating edge label...");
         int i = 1;
         while( m_ngraph->getEdge(QString(label).append(QString::number(i)) )){
@@ -106,7 +107,7 @@ void NGraphModel::addEdgeToModel(QString labelStart, QString labelEnd, double we
     }
 
     m_ngraph->addEdge(labelStart, labelEnd, weight, resLabel);
-    qDebug(QString("NGraphModel: Added edge ").append(resLabel).toStdString().c_str());
+    qDebug() << "NGraphModel: Added edge " << resLabel;
 
     /*if(m_ngraph->getEdge("Edge1")){
         qDebug(" Edge1 exists");
