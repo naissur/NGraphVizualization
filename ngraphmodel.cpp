@@ -118,6 +118,18 @@ void NGraphModel::addEdgeToModel(QString labelStart, QString labelEnd, double we
     emit addEdgeToView(labelStart, labelEnd, resLabel, weight);
 }
 
+void NGraphModel::stabilizeGraphModel(double dt, double scale){
+    m_ngraph->stabilize(dt, scale);
+    updateGraphInView();
+    //qDebug("Stabilized!");
+}
+
+void NGraphModel::updateGraphInView(){
+    foreach(NGraphNode* node, m_ngraph->getNodeList()){
+        emit moveNodeInView(node->getX(), node->getY(), node->getLabel());
+    }
+}
+
 
 NGraphModel::~NGraphModel(){
     delete m_ngraph;

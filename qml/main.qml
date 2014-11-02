@@ -50,6 +50,19 @@ Rectangle{
                     graphArea.state = "SCALING"
                 }
             }
+            Timer{
+                id: stabilizeTimer;
+                interval: 10; running: false; repeat: true;
+                onTriggered:{
+                    graphArea.stabilizeGraphModel(0.01, 0.005);   //Dt and Scale
+                    }
+            }
+            NNiftyButton{
+                width:parent.width
+                height: parent.height/5
+                buttonText: "Stabilize"
+                onClicked: stabilizeTimer.running = !stabilizeTimer.running;
+            }
         }
     }
 }

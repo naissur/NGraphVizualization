@@ -22,16 +22,17 @@ Rectangle{
     signal mousePressed(string label)
     signal mouseReleased(int x, int y, string label)
 
-    signal moved(int x, int y, string label)   // View Signal
-    onMoved:{
+    signal nodeMoved(int x, int y, string label)   // View Signal
+    signal nodeDragged(int x, int y, string label)   // View Signal
+    onNodeMoved:{
         //console.debug(label+" : emitting move signal");
     }
 
     onXChanged: {
-        moved(x, y, label)
+        nodeMoved(x, y, label);
     }
     onYChanged: {
-        moved(x, y, label)
+        nodeMoved(x, y, label);
     }
 
     width: 30
@@ -62,9 +63,11 @@ Rectangle{
         drag.target: node
         onMouseXChanged: {
             //canvas.requestPaint();
+            node.nodeDragged(node.x, node.y, label)
         }
         onMouseYChanged: {
             //canvas.requestPaint();
+            node.nodeDragged(node.x, node.y, label)
         }
         onPressed:{
             //console.debug(node.label, " had mouse Pressed");

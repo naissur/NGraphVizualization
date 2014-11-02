@@ -3,6 +3,7 @@
 #include <QQuickItem>
 //#include <QtMath>
 #include <QDebug>
+#include <cmath>
 
 NGraphView::NGraphView(QObject *parent) : QObject(parent){
     NGraphView(STD_WIDTH, STD_HEIGHT, parent);
@@ -39,6 +40,9 @@ NGraphView::NGraphView(int width, int height, QObject *parent) : QObject(parent)
     connect(this, 		SIGNAL(moveNodeInGraphView(QVariant, QVariant, QVariant)),
             graphArea,  SLOT(moveNodeInGraphView(QVariant, QVariant, QVariant)));
 
+    connect(graphArea, 	SIGNAL(stabilizeGraphModel(double, double)),
+            this,		SIGNAL(stabilizeGraphModel(double,double)));
+
     //connect(this, 		SIGNAL(moveEdgeInGraphView(QVariant,QVariant,QVariant,QVariant,QVariant)),
             //graphArea, 	SLOT(moveEdgeInGraphView(QVariant,QVariant,QVariant,QVariant,QVariant)) );
 
@@ -50,23 +54,23 @@ void NGraphView::show(){
     /*int N = 20;
     int n1 = 1;
     emit addNodeToModel(150+100, 150+100);
-    for(double a = 0; a < 2*M_PI; a+= M_PI*2/N){
+    for(double a = 0; a < 2*3.14159265358979; a+= 3.14159265358979*2/N){
         n1++;
-        emit addNodeToModel((1+qCos(a))*150+100, (1+qSin(a))*150+100);
+        emit addNodeToModel((1+cos(a))*150+100, (1+sin(a))*150+100);
         emit addEdgeToModel(QString::number(1),
                             QString::number(n1),
-                            1, QString("Edge ").append(QString::number(1)).
+                            a/5+1, QString("Edge ").append(QString::number(1)).
                             append(QString(" ")).append(QString::number(n1)) );
     }*/
     m_window->show();
 
-    /*int N = 10;     /// ADD K(N)
-    for(double a = 0; a < 2*M_PI; a+= M_PI*2/N){
-        emit addNodeToModel((1+qCos(a))*150+100, (1+qSin(a))*150+100);
+    /*int N = 20;     // ADD K(N)
+    for(double a = 0; a < 2*3.14159265358979; a+= 3.14159265358979*2/N){
+        emit addNodeToModel((1+cos(a))*150+100, (1+sin(a))*150+100);
     }
 
     int n2;
-    for(int n1; n1 <= N; n1++){
+    for(int n1 = 1; n1 <= N; n1++){
         for(n2 = n1+1; n2 <= N; n2++){
             emit addEdgeToModel(QString::number(n1),
                                 QString::number(n2),
@@ -96,10 +100,6 @@ void NGraphView::addEdgeToView(QString labelStart, QString labelEnd, QString lab
     emit moveEdgeInGraphView(QVariant(x1), QVariant(y1),
                              QVariant(x2), QVariant(y2), QVariant(label));
 }*/
-
-void NGraphView::testMove(){
-    moveNodeInView(300, 300, "1");
-}
 
 NGraphView::~NGraphView(){
     delete m_window;

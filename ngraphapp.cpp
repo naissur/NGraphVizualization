@@ -31,6 +31,9 @@ NGraphApp::NGraphApp(int argc, char* argv[]) {
     QObject::connect(m_view,  SIGNAL(addEdgeToModel(QString,QString,double,QString)),
                      m_model, SLOT(addEdgeToModel(QString,QString,double,QString)) );
 
+    QObject::connect(m_view,  SIGNAL(stabilizeGraphModel(double,double)),
+                     m_model, SLOT(stabilizeGraphModel(double,double)) );
+
 }
 
 int NGraphApp::exec(){

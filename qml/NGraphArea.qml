@@ -55,6 +55,8 @@ Rectangle{
     signal moveNodeInModel(double x, double y, string label)
     signal addEdgeToModel(string label1, string label2, double weight, string label);
 
+    signal stabilizeGraphModel(double dt, double scale);
+
     function startCreatingEdge(label){
         if(graphArea.state == "ADDING_EDGES"){
             var childrenList = graphNodeContainer.children
@@ -139,8 +141,8 @@ Rectangle{
                              //"canvas": canvas,
                              "dragEnabled": true,
                              "z": 0});
-        newNode.moved.connect(moveNodeInModel);
-        newNode.moved.connect(moveNodeInModel);
+        newNode.nodeDragged.connect(moveNodeInModel);
+        newNode.nodeDragged.connect(moveNodeInModel);
         //newNode.mousePressed.connect(function(s){console.debug("Pressed node "+s)});
         //newNode.mousePressed.connect(startCreatingEdge);
         //newNode.mouseReleased.connect(function(x,y,s){console.debug("Released node "+s)});
@@ -170,8 +172,8 @@ Rectangle{
                                      "x2" : endNode.x, "y2" : endNode.y,
                                      "label" : label, "weight" : weight, "height" : 3,
                                      "z": 0});
-            startNode.moved.connect(newEdge.setXY1);
-            endNode.moved.connect(newEdge.setXY2);
+            startNode.nodeMoved.connect(newEdge.setXY1);
+            endNode.nodeMoved.connect(newEdge.setXY2);
         }
     }
 

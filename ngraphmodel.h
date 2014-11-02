@@ -25,6 +25,10 @@ public slots:
 
     void addEdgeToModel(QString labelStart, QString labelEnd, double weight = 1, QString label = QString("") );
 
+    void stabilizeGraphModel(double dt, double scale);
+
+    void updateGraphInView();
+
 private:
     NGraph* m_ngraph;
 

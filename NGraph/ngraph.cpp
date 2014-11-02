@@ -1,4 +1,8 @@
 #include "ngraph.h"
+#include <QPoint>
+#include <cmath>
+
+#include <QtDebug>
 
 
 NGraphNode::NGraphNode(){
@@ -135,6 +139,54 @@ QPair<QString, double>* NGraph::getEdge(QString label){
         }
     }
     return NULL;
+}
+
+void NGraph::stabilize(double dt, double scale){
+    QHash <NGraphNode*, NDoublePoint> dHash;
+    foreach (NGraphNode* node,getNodeList()){
+        dHash.insert(node, NDoublePoint(0,0));
+    }
+
+    double dx, dy, x1, y1, x2, y2;
+    foreach (NGraphNode* startNode, getNodeList()){
+        dx = 0;
+        dy = 0;
+        x1 = startNode->getX();
+        y1 = startNode->getY();
+        x2 = 0;
+        y2 = 0;
+        qDebug() << x1 << " " << y1 << " | " << x2 << " " << y2;
+
+        foreach (NGraphNode* endNode, getAdjecentNodes(startNode->getLabel()) ){
+            double target_weight = getEdge(startNode->getLabel(), endNode->getLabel())->second;
+            x2 = endNode->getX();
+            y2 = endNode->getY();
+            //double current_weight = scale * (x2-x1)*sqrt(1+(x2-x1)/(y2-y1)*(x2-x1)/(y2-y1)); // just the length
+            double current_weight = scale * sqrt((x2-x1)*(x2-x1)+(y2-y1)*(y2-y1)); // just the length
+            dx += (x2-x1)*(current_weight-target_weight)/2.0;
+            dy += (y2-y1)*(current_weight-target_weight)/2.0;
+
+            dHash[endNode].setX(dHash[endNode].getX()-dx*dt);   // set dx and dy for adjacent nodes immediately
+            dHash[endNode].setY(dHash[endNode].getY()-dy*dt);
+        }
+
+        if(!( (fabs(dx) < NG_THRESHOLD*dt) && (fabs(dy) < NG_THRESHOLD*dt))){
+            /*NDoublePoint resVal = dHash.value(startNode);
+            double resdx = resVal.getX()+dx;
+            double resdy = resVal.getY()+dy;
+            dHash[startNode] = NDoublePoint(resdx,resdy);*/
+            dHash[startNode].setX(dHash[startNode].getX()+dx*dt);
+            dHash[startNode].setY(dHash[startNode].getY()+dy*dt);
+
+        }
+    }
+
+    foreach (NGraphNode* node, getNodeList()){
+        NDoublePoint dxdyPoint(dHash[node].getX(), dHash[node].getY());
+        node->setX(dxdyPoint.getX()+node->getX());
+        node->setY(dxdyPoint.getY()+node->getY());
+        qDebug() << "Moved node " << node->getLabel() << " dx = " << dHash[node].getX() << " dy = " << dHash[node].getY();
+    }
 }
 
 NGraph::~NGraph(){

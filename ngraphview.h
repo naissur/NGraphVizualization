@@ -22,6 +22,7 @@ signals:
     void addNodeToModel(double x, double y);
     void moveNodeInModel(double x, double y, QString label);
     void addEdgeToModel(QString startLabel, QString endLabel, double weight, QString edgeLabel);
+    void stabilizeGraphModel(double dt, double scale);
 
     // QML signals declared here
     void addNodeToGraphView(QVariant x, QVariant y, QVariant label);
@@ -32,7 +33,6 @@ signals:
                              //QVariant x2, QVariant y2, QVariant label);
 
 public slots:
-    void testMove();
     void addNodeToView(double x, double y, QString label);
     void moveNodeInView(double x, double y, QString label);
 
