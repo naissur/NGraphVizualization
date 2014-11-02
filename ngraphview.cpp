@@ -1,7 +1,8 @@
 #include "ngraphview.h"
 #include <QScreen>
 #include <QQuickItem>
-#include <QtMath>
+//#include <QtMath>
+#include <QDebug>
 
 NGraphView::NGraphView(QObject *parent) : QObject(parent){
     NGraphView(STD_WIDTH, STD_HEIGHT, parent);
@@ -79,7 +80,7 @@ void NGraphView::show(){
 
 
 void NGraphView::addNodeToView(double x, double y, QString label){
-    qDebug(QString("NGraphView: Added node ").append(label).toStdString().c_str());
+    qDebug() << "NGraphView: Added node " << label;
     emit addNodeToGraphView(QVariant(x), QVariant(y), QVariant(label));
 }
 

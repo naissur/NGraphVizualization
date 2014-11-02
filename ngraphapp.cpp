@@ -4,11 +4,11 @@
 NGraphApp::NGraphApp(int argc, char* argv[]) {
     qDebug("NGraphApp: Created an NGraphApp instance");
     m_app = new QApplication(argc, argv);
-    m_model = new NGraphModel();
+    m_model = new NGraphModel;
     m_view = new NGraphView(800, 480);
 
 
-    // Connecting Signals to Slots between Model and View \\
+    // Connecting Signals to Slots between Model and View
 
     QObject::connect(m_view,  SIGNAL(addNodeToModel(double,double)),
                      m_model, SLOT(addNodeToModel(double,double)));
@@ -47,4 +47,5 @@ NGraphApp::~NGraphApp(){
     m_app->exit();
     delete m_model;
     delete m_view;
+    delete m_app;
 }
